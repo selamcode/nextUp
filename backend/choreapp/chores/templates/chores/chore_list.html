@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Chores</h1>
+{% for chore in chores %}
+<div class="chore-item">
+    <h2>{{ chore.title }}</h2>
+    <p>{{ chore.description }}</p>
+    <p>Assigned Date: {{ chore.assigned_date }}</p>
+    <p>Priority: {{ chore.priority }}</p>
+    <p>Status: {{ chore.status }}</p>
+    <a href="{% url 'chore-detail' chore.pk %}">View</a>
+</div>
+{% endfor %}
+{% endblock %}
