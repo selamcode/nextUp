@@ -4,9 +4,9 @@
 <h1>Chores</h1>
 {% for chore in chores %}
 <div class="chore-item">
-    <h2>{{ chore.title }}</h2>
-    <p>{{ chore.description }}</p>
-    <p>Assigned Date: {{ chore.assigned_date }}</p>
+    <h2>Title: {{ chore.title }}</h2>
+    <p>Dedescription: s{{ chore.description }}</p>
+    <p>Due date: {{ chore.due_date }}</p>
     <p>Priority: {{ chore.priority }}</p>
     <p>Status: {{ chore.status }}</p>
     <a href="{% url 'chore-detail' chore.pk %}">View</a>

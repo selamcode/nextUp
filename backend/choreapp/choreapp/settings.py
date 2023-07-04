@@ -14,7 +14,16 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve(strict=True).parents[3]
+
+# This will be the path of your frontend build directory.
+FRONTEND_DIR = BASE_DIR / 'frontend' 
+
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [
+    FRONTEND_DIR / "build"
+]
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,11 +38,16 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
     "chores",
     "djongo",
+    "corsheaders",
+    "rest_framework",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,8 +55,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+# This allows only the specified origins
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+   'http://localhost:3000',  # If your React app is running on this host
+    'http://127.0.0.1:3000',  # If your React app is running on this host
+]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -57,7 +79,7 @@ ROOT_URLCONF = "choreapp.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["chores/templates/chores"],
+        "DIRS": [os.path.join(BASE_DIR, 'chores/templates/chores'),FRONTEND_DIR / "build"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -69,6 +91,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = "choreapp.wsgi.application"
 

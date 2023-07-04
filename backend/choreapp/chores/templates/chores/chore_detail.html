@@ -1,10 +1,8 @@
-{% extends 'base.html' %}
-
 {% block content %}
 <div class="chore-detail">
-    <h2>{{ chore.title }}</h2>
-    <p>{{ chore.description }}</p>
-    <p>Assigned Date: {{ chore.assigned_date }}</p>
+    <h2>Title: {{ chore.title }}</h2>
+    <p>Description: {{ chore.description }}</p>
+    <p>Due date: {{ chore.due_date }}</p>
     <p>Priority: {{ chore.priority }}</p>
     <p>Status: {{ chore.status }}</p>
     <a href="{% url 'chore-update' chore.pk %}">Edit</a>
