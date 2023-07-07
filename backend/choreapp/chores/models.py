@@ -30,7 +30,7 @@ class Chore(models.Model):
         choices=PRIORITY_CHOICES,
         default='medium',
     )
-    #assignees = models.ManyToManyField(get_user_model(), related_name='chores', blank=True)
+   
 
     def __str__(self):
         return self.title

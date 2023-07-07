@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+// index.js or App.js
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const PRIORITY_CHOICES = [
   { value: "low", label: "Low" },
@@ -79,39 +82,49 @@ function App() {
     setError(null);
   };
 
-  const saveChore = async () => {
-    if (
-      !editingChore.title ||
-      !editingChore.description ||
-      !editingChore.due_date ||
-      !editingChore.priority ||
-      !editingChore.status
-    ) {
-      setError("Please fill in all fields");
-      return;
-    }
-  
-    try {
-      await axios.put(
-        `http://localhost:8000/api/chores/${editingChore.id}`,
-        {
-          title: editingChore.title,
-          description: editingChore.description,
-          due_date: editingChore.due_date,
-          priority: editingChore.priority,
-          status: editingChore.status
-        }
-      );
-      fetchChores();
-      setEditingChore(null);
-      setError(null);
-    } catch (error) {
-      console.error(error);
-      setError("An error occurred while saving the edited chore");
-    }
-  };
-  
-  
+ 
+
+// ...
+
+const saveChore = async () => {
+  if (
+    !editingChore.title ||
+    !editingChore.description ||
+    !editingChore.due_date ||
+    !editingChore.priority ||
+    !editingChore.status
+  ) {
+    setError("Please fill in all fields");
+    return;
+  }
+
+  // Check if any changes were made
+  const { id, ...editedChore } = editingChore;
+
+  // Perform the save operation only if there are changes
+  if (Object.keys(editedChore).length === 0) {
+    setEditingChore(null);
+    setError(null);
+    return;
+  }
+
+  try {
+    await axios.put(
+      `http://localhost:8000/api/chores/${editingChore.id}/`,
+      editedChore
+    );
+    fetchChores();
+    setEditingChore(null);
+    setError(null);
+  } catch (error) {
+    console.error(error);
+    setError("An error occurred while saving the edited chore");
+  }
+};
+
+
+
+
   const deleteChore = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/api/chores/${id}`);
